@@ -3,6 +3,7 @@ import axios from 'axios'
 import YouTube from 'react-youtube'
 import './App.css'
 import Card from './componentes/Card/Card'
+import CardContainer from './componentes/CardContainer/CardContainer'
 
 function App() {
   
@@ -32,7 +33,6 @@ params :{
     if(results.length){
       await fetchMovie(results[0].id)
     }
-
  }
 
 // Código para la petición de una película y mostrar el trailer
@@ -92,8 +92,6 @@ const buscarPeliculas = (e)=>{
 
       {/* Contenedor del Baner y reproductor de video */}
 
-
-      
       <div>
         <main>
           {movie ? (
@@ -153,14 +151,10 @@ const buscarPeliculas = (e)=>{
       </div>
 
 
-
-
-
-
-
       {/* Contenedor del Baner y reproductor de video */}
 
       <div className='container mt-3'>
+          <CardContainer></CardContainer>
       <div className='row'>
       {movieList.map(movie => (
         <Card key={movie.id} titulo={movie.original_title} imgsrc={movie.poster_path} clickf={() => selectMovie(movie)} movie={movie} />

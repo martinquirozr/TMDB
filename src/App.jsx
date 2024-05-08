@@ -3,7 +3,7 @@ import axios from 'axios'
 import YouTube from 'react-youtube'
 import './App.css'
 import Card from './componentes/Card/Card'
-import CardContainer from './componentes/CardContainer/CardContainer'
+import CardContainer from './componentes/CardContainer/CardContainer.jsx'
 
 function App() {
   
@@ -17,7 +17,7 @@ function App() {
   const [trailer, setTrailer] = useState(null);
   const [playing,setPlaying] = useState(false);
 
-// Peticion API
+// Peticion API de Todas Las Películas
  const fetchApi = async (searchKey) => {
   let type = searchKey ? 'search' : 'discover';
   const {data : {results},
@@ -54,7 +54,7 @@ const fetchMovie = async (id) => {
 
 const selectMovie = async(movie) =>{
   fetchMovie(movie.id)
-  setMovie(movie)
+  // setMovie(movie)
   window.scrollTo(0,0)
 }
 
@@ -71,8 +71,8 @@ const buscarPeliculas = (e)=>{
 
   return (
 
-    <div className='bg-secondary'>
-      <nav className='text-bg-dark d-flex'>
+    <div className='bg-dark'>
+      <nav className='text-light d-flex'>
         <div className='col-6 d-flex align-items-center justify-content-center' ><h2 className='text-center'>TMDB+</h2></div>
         
         <div className='col-6 d-flex align-items-center justify-content-center '>
@@ -127,7 +127,7 @@ const buscarPeliculas = (e)=>{
                   </button>
                 </>
               ) : (
-                <div className="container">
+                <div className="container mb-5">
                   <div className="">
                     {trailer ? (
                       <button
@@ -154,8 +154,15 @@ const buscarPeliculas = (e)=>{
       {/* Contenedor del Baner y reproductor de video */}
 
       <div className='container mt-3'>
-          <CardContainer></CardContainer>
+          <CardContainer 
+          clickf2={() => selectMovie(movie)} titulo='Comedia' generoID={35}>
+          </CardContainer>
+          <CardContainer titulo='Acción' generoID={28}></CardContainer>
+          <CardContainer titulo='Romance' generoID={10749}></CardContainer>
+          <CardContainer titulo='Animación' generoID={16}></CardContainer>
       <div className='row'>
+
+        <h1>General</h1>
       {movieList.map(movie => (
         <Card key={movie.id} titulo={movie.original_title} imgsrc={movie.poster_path} clickf={() => selectMovie(movie)} movie={movie} />
 

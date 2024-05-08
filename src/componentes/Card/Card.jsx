@@ -11,5 +11,5 @@ return(
     </div>
 )
 }
-
+ 
 export default Card;

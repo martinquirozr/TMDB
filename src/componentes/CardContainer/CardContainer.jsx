@@ -5,9 +5,6 @@ import Card from '../Card/Card'
 
 
 function CardContainer(props){
-// let genero = 28;
-const api_url = 'https://api.themoviedb.org/3'
-const api_key = '210bd2a2117bf15c53b4bb54e113409c'
 
 const [categoryList, setCategoryList] = useState([]);
 
@@ -29,13 +26,17 @@ useEffect(() => {
 
 console.log('Prueba Final Category Fetch',categoryList)
 
+const handleMovieClick = (movie) => {
+    props.clickf2(movie);
+  };
+
 return(
     <div>
 
         <h4 className='text-light mb-3'>{props.titulo}</h4>
      <div className='row'>
       {categoryList.slice(0,6).map(movie => (
-        <Card key={movie.id} titulo={movie.original_title} imgsrc={movie.poster_path} onClick={props.clickf} movie={movie} />
+        <Card key={movie.id} titulo={movie.original_title} imgsrc={movie.poster_path} clickf={handleMovieClick} movie={movie} />
 
       ))}
       </div>

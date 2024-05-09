@@ -4,6 +4,9 @@ import YouTube from 'react-youtube'
 import './App.css'
 import Card from './componentes/Card/Card'
 import CardContainer from './componentes/CardContainer/CardContainer.jsx'
+import CardContainer2 from './componentes/CardContainer2/CardContainer2.jsx'
+import CardContainerGrandes from './componentes/CardContainerGrandes/CardContainerGrandes.jsx'
+import Footer from './componentes/Footer/Footer.jsx'
 
 function App() {
   
@@ -12,10 +15,18 @@ function App() {
 
 // Variables de estado
   const [movieList, setMovieList] = useState([]);
+  const [popularMovieList,setPopularMovieList] = useState([]);
   const [movie, setMovie] = useState({ title: "Loading Movies" });
   const [searchKey, setSearchKey] = useState('');
   const [trailer, setTrailer] = useState(null);
   const [playing,setPlaying] = useState(false);
+
+  const[showDrama,setShowDrama] = useState(false);
+  const[showTerror,setShowTerror] = useState(false);
+  const[showFamiliar,setShowFamiliar] = useState(false);
+  const[showCrimen,setShowCrimen] = useState(false);
+  const[showAventura,setShowAventura] = useState(false);
+  const[showBusqueda,setShowBusqueda] = useState(false);
 
 // Peticion API de Todas Las Películas
  const fetchApi = async (searchKey) => {
@@ -35,6 +46,24 @@ params :{
     }
  }
 
+
+//  Buscarc Peliculas Populares
+
+const getPopularMovies = async () => {
+    
+  try {
+      const response = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=210bd2a2117bf15c53b4bb54e113409c&include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc`);
+      const data = await response.json();
+      setPopularMovieList(data.results);
+  } catch (error) {
+      console.error('Error al obtener la lista de películas:', error);
+  }
+}
+
+useEffect(() => {
+  getPopularMovies();
+}, []);
+
 // Código para la petición de una película y mostrar el trailer
 const fetchMovie = async (id) => {
   const {data} = await axios.get(`${api_url}/movie/${id}`,{
@@ -51,6 +80,8 @@ const fetchMovie = async (id) => {
   }
   setMovie(data)
 }
+
+
 
 const selectMovie = async(movie) =>{
   fetchMovie(movie.id)
@@ -69,6 +100,68 @@ const buscarPeliculas = (e)=>{
   fetchApi();
  },[])
 
+
+//  Funciones Para renderizar categorias y otros
+let renderBusqueda = () => {
+  setShowBusqueda(true)
+  setShowDrama(false);
+  setShowTerror(false);
+  setShowFamiliar(false);
+  setShowCrimen(false);
+  setShowAventura(false);
+
+}
+let renderDrama = () => {
+  
+  setShowBusqueda(false)
+  setShowDrama(true);
+  setShowTerror(false);
+  setShowFamiliar(false);
+  setShowCrimen(false);
+  setShowAventura(false);
+
+}
+let renderTerror = () => {
+  
+  setShowBusqueda(false)
+  setShowDrama(false);
+  setShowTerror(true);
+  setShowFamiliar(false);
+  setShowCrimen(false);
+  setShowAventura(false);
+
+}
+let renderFamiliar = () => {
+  
+  setShowBusqueda(false)
+  setShowDrama(false);
+  setShowTerror(false);
+  setShowFamiliar(true);
+  setShowCrimen(false);
+  setShowAventura(false);
+
+}
+let renderCrimen = () => {
+  
+  setShowBusqueda(false)
+  setShowDrama(false);
+  setShowTerror(false);
+  setShowFamiliar(false);
+  setShowCrimen(true);
+  setShowAventura(false);
+
+}
+let renderAventura = () => {
+  
+  setShowBusqueda(false)
+  setShowDrama(false);
+  setShowTerror(false);
+  setShowFamiliar(false);
+  setShowCrimen(false);
+  setShowAventura(true);
+
+}
+
   return (
 
     <div className='bg-dark'>
@@ -81,7 +174,7 @@ const buscarPeliculas = (e)=>{
             <input className='form-control form-control-sm' type="text" placeholder='Buscar' onChange={(e)=> setSearchKey(e.target.value)} />
             </div>
             <div className='d-grid col-2 mx-1'>
-            <button className='btn btn-secondary btn-navbar btn-sm'> Buscar</button>
+            <button onClick={()=>renderBusqueda()} className='btn btn-secondary btn-navbar btn-sm'> Buscar</button>
             </div>
         
           </form>
@@ -154,22 +247,78 @@ const buscarPeliculas = (e)=>{
       {/* Contenedor del Baner y reproductor de video */}
 
       <div className='container mt-3'>
-          <CardContainer 
-          clickf2={() => selectMovie(movie)} titulo='Comedia' generoID={35}>
-          </CardContainer>
-          <CardContainer titulo='Acción' generoID={28}></CardContainer>
-          <CardContainer titulo='Romance' generoID={10749}></CardContainer>
-          <CardContainer titulo='Animación' generoID={16}></CardContainer>
+
+
+        {/* Variables de Estado Para renderizar o no */}
+
+        
+
+            {/* Category Provicionales */}
+
+            { showBusqueda &&
+          (
+            <div className='row'>
+
+        <h1>General</h1>
+      {movieList.slice(0,6).map(movie => (
+        <Card key={movie.id} titulo={movie.original_title} imgsrc={movie.poster_path} clickf={() => selectMovie(movie)} movie={movie} />
+
+      ))}
+      </div>
+          )
+          }
+
+
+
+
+          { showDrama &&
+          (<CardContainer clickf2={selectMovie} titulo='Drama' generoID={18}></CardContainer>)
+          }
+          { showTerror &&
+          (<CardContainer clickf2={selectMovie} titulo='Terror' generoID={27}></CardContainer>)
+          }
+          { showFamiliar &&
+          (<CardContainer clickf2={selectMovie} titulo='Familiar' generoID={10751}></CardContainer>)
+          }
+          { showCrimen &&
+          (<CardContainer clickf2={selectMovie} titulo='Crimen' generoID={80}></CardContainer>)
+          }
+           { showAventura &&
+          (<CardContainer clickf2={selectMovie} titulo='Aventura' generoID={12}></CardContainer>)
+          }
+          
+            {/* Termina Category Provicionales */}
+
+
+
+
+          <CardContainer clickf2={selectMovie} titulo='Comedia' generoID={35}></CardContainer>
+          <CardContainer clickf2={selectMovie} titulo='Acción' generoID={28}></CardContainer>
+          <CardContainer2 
+          renderDrama={()=>renderDrama()} 
+          renderTerror={()=>renderTerror()}
+          renderFamiliar={()=>renderFamiliar()}
+          renderCrimen={()=>renderCrimen()}
+          renderAventura={()=>renderAventura()}
+          titulo='+ Categorias'>
+
+          </CardContainer2>
+
+
+          <CardContainerGrandes clickf2={selectMovie} titulo='Mejores Calificadas'></CardContainerGrandes>
+
+
       <div className='row'>
 
         <h1>General</h1>
-      {movieList.map(movie => (
+      {popularMovieList.slice(0,12).map(movie => (
         <Card key={movie.id} titulo={movie.original_title} imgsrc={movie.poster_path} clickf={() => selectMovie(movie)} movie={movie} />
 
       ))}
       </div>
       
     </div>
+    <Footer></Footer>
     </div>
     
   )

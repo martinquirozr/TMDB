@@ -13,7 +13,7 @@ return(
     <div>
 
     <h4 className='text-light mb-3'>{props.titulo}</h4>
-    <div className='d-flex align-items-center justify-content-between'>
+    <div className='row justify-content-around'>
         <CardGenero clickRender2={props.renderDrama} generoID={18} titulo='Drama'></CardGenero>
         <CardGenero clickRender2={props.renderTerror} generoID={27} titulo='Terror'></CardGenero>
         <CardGenero clickRender2={props.renderFamiliar} generoID={10751} titulo='Familiar'></CardGenero>

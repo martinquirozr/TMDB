@@ -166,7 +166,7 @@ let renderAventura = () => {
 
     <div className='bg-dark'>
       <nav className='text-light d-flex'>
-        <div className='col-6 d-flex align-items-center justify-content-center' ><h2 className='text-center'>TMDB+</h2></div>
+        <div className='col-6 d-flex align-items-center justify-content-start ms-5 ps-5' ><h2 className='text-center'>TMDB+</h2></div>
         
         <div className='col-6 d-flex align-items-center justify-content-center '>
           <form className='container d-flex align-items-center justify-content-center' onSubmit={buscarPeliculas}>
@@ -235,6 +235,7 @@ let renderAventura = () => {
                     )}
                     <h1 className="text-white">{movie.title}</h1>
                     <p className="text-white">{movie.overview}</p>
+                    <h6 className='text-white'>Votos <span className='fw-bolder'>{movie.vote_average}</span></h6>
                   </div>
                 </div>
               )}
@@ -288,9 +289,6 @@ let renderAventura = () => {
           }
           
             {/* Termina Category Provicionales */}
-
-
-
 
           <CardContainer clickf2={selectMovie} titulo='Comedia' generoID={35}></CardContainer>
           <CardContainer clickf2={selectMovie} titulo='Acción' generoID={28}></CardContainer>

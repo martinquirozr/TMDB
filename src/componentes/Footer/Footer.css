@@ -1,3 +1,13 @@
 footer{
     height: 6rem;
+    font-size: 0.7rem;
+    padding: 0 6rem;
 }
+
+
+@media screen and (max-width: 550px) {
+    footer {
+      height: 6rem;
+      font-size: 0.6rem 
+    }
+  }
